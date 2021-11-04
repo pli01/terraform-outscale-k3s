@@ -18,12 +18,12 @@ resource "outscale_subnet" "subnet01" {
 
 # private subnet
 resource "outscale_subnet" "subnet02" {
-    net_id   = outscale_net.net01.net_id
-    ip_range = "10.0.2.0/24"
-    tags {
-      key ="Name"
-      value = "subnet02"
-    }
+  net_id   = outscale_net.net01.net_id
+  ip_range = "10.0.2.0/24"
+  tags {
+    key   = "Name"
+    value = "subnet02"
+  }
 }
 
 # igw
@@ -67,10 +67,24 @@ resource "outscale_public_ip" "public_ip01" {
 }
 
 resource "outscale_nat_service" "nat_service01" {
-    subnet_id    = outscale_subnet.subnet01.subnet_id
-    public_ip_id = outscale_public_ip.public_ip01.public_ip_id
-    tags {
-      key ="Name"
-      value = "nat_service01"
-    }
+  subnet_id    = outscale_subnet.subnet01.subnet_id
+  public_ip_id = outscale_public_ip.public_ip01.public_ip_id
+  tags {
+    key   = "Name"
+    value = "nat_service01"
+  }
+}
+
+resource "outscale_route_table" "route_table02" {
+  net_id = outscale_net.net01.net_id
+  tags {
+    key   = "Name"
+    value = "route_table02"
+  }
+}
+
+resource "outscale_route" "route02" {
+  destination_ip_range = "0.0.0.0/0"
+  nat_service_id       = outscale_nat_service.nat_service01.nat_service_id
+  route_table_id       = outscale_route_table.route_table02.route_table_id
 }
