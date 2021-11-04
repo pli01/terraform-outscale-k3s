@@ -36,13 +36,12 @@ services:
       TF_CLI_ARGS_show: ${TF_CLI_ARGS_show}
       TF_CLI_ARGS_output: ${TF_CLI_ARGS_output}
       TAINT_ADDRESS: ${TAINT_ADDRESS}
-      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_ROLE_ARN: ${AWS_ROLE_ARN}
-      AWS_IAM_ENDPOINT: ${AWS_IAM_ENDPOINT}
+      OUTSCALE_REGION: ${OUTSCALE_REGION}
+      OUTSCALE_ACCESSKEYID: ${OUTSCALE_ACCESSKEYID}
+      OUTSCALE_SECRETKEYID: ${OUTSCALE_SECRETKEYID}
     volumes:
       - ./terraform:/data/terraform
+      - ./state:/data/state
       - ./examples:/data/examples
       - ./Makefile:/data/Makefile
       - ./config.auto.tfvars:/data/config.auto.tfvars

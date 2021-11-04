@@ -7,7 +7,7 @@ ARG PACKAGES="make unzip wget curl jq python-apt python python3-pip apt-transpor
 
 # Run
 ENV DEBIAN_FRONTEND noninteractive
-ENV TERRAFORM_VERSION=0.15.5
+ENV TERRAFORM_VERSION=1.0.10
 ENV TERRAGRUNT_VERSION=0.30.3
 
 # Install default packages
