@@ -1,5 +1,19 @@
+variable "network" {
+  type = object({
+         net_cidr = string
+         public_subnet_cidr = string
+         private_subnet_cidr = string
+       }
+  )
+  default = {
+    net_cidr = "10.0.0.0/16"
+    public_subnet_cidr = "10.0.1.0/24"
+    private_subnet_cidr = "10.0.2.0/24"
+  }
+}
+
 resource "outscale_net" "net01" {
-  ip_range = "10.0.0.0/16"
+  ip_range = var.network.net_cidr
   tags {
     key   = "Name"
     value = "net01"
@@ -7,22 +21,22 @@ resource "outscale_net" "net01" {
 }
 
 # public subnet
-resource "outscale_subnet" "subnet01" {
+resource "outscale_subnet" "public_subnet01" {
   net_id   = outscale_net.net01.net_id
-  ip_range = "10.0.1.0/24"
+  ip_range = var.network.public_subnet_cidr
   tags {
     key   = "Name"
-    value = "subnet01"
+    value = "public_subnet01"
   }
 }
 
 # private subnet
-resource "outscale_subnet" "subnet02" {
+resource "outscale_subnet" "private_subnet02" {
   net_id   = outscale_net.net01.net_id
-  ip_range = "10.0.2.0/24"
+  ip_range = var.network.private_subnet_cidr
   tags {
     key   = "Name"
-    value = "subnet02"
+    value = "private_subnet02"
   }
 }
 
@@ -42,7 +56,7 @@ resource "outscale_route" "route01" {
 }
 
 resource "outscale_route_table_link" "route_table_link01" {
-  subnet_id      = outscale_subnet.subnet01.subnet_id
+  subnet_id      = outscale_subnet.public_subnet01.subnet_id
   route_table_id = outscale_route_table.route_table01.id
 }
 
@@ -67,7 +81,7 @@ resource "outscale_public_ip" "public_ip01" {
 }
 
 resource "outscale_nat_service" "nat_service01" {
-  subnet_id    = outscale_subnet.subnet01.subnet_id
+  subnet_id    = outscale_subnet.public_subnet01.subnet_id
   public_ip_id = outscale_public_ip.public_ip01.public_ip_id
   tags {
     key   = "Name"

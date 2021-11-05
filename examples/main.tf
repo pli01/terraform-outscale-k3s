@@ -3,5 +3,5 @@ module "k3s-cluster" {
   source       = "../terraform"
   image_name   = var.image_name
   keypair_name = var.keypair_name
-  vm_type      = var.vm_type
+  bastion_type = var.bastion_type
 }

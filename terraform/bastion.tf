@@ -3,65 +3,38 @@ variable "image_name" {
   default = "ami-ff13275d"
 }
 
-variable "vm_type" {
+variable "bastion_type" {
   type    = string
   default = "t2.nano"
 }
 
 variable "keypair_name" {
-  type    = string
+  type = string
 }
 
-variable "maxcount" {
+variable "bastion_count" {
   type    = number
   default = 1
 }
-# bastion userdata
-data "cloudinit_config" "bastion_config" {
-  gzip          = false
-  base64_encode = true
 
-  # order matter
-  # cloud-init.cfg
-  part {
-    filename     = "cloud-init.cfg"
-    content_type = "text/cloud-config"
-    content      = file("${path.module}/config-scripts/cloud-init.tpl")
-  }
-  part {
-    content_type = "text/x-shellscript"
-    content      = file("${path.module}/config-scripts/configure_ssh.sh")
-  }
-  part {
-    content_type = "text/x-shellscript"
-    content      = file("${path.module}/config-scripts/install_docker.sh")
-  }
-}
-
-resource "outscale_vm" "bastion" {
-  count = var.maxcount
+module "bastion" {
+  source             = "./modules/bastion"
+  maxcount           = var.bastion_count
   image_id           = var.image_name
-  vm_type            = var.vm_type
+  vm_type            = var.bastion_type
   keypair_name       = var.keypair_name
-  security_group_ids = [outscale_security_group.security_group01.security_group_id]
-  subnet_id          = outscale_subnet.subnet01.subnet_id
-  user_data = data.cloudinit_config.bastion_config.rendered
-  tags {
-    key   = "Name"
-    value = format("%s-%s", "bastion", count.index)
-  }
+  public_ip          = module.base.bastion_public_ip
+  subnet_id          = module.base.public_subnet_id
+  security_group_ids = [module.base.bastion_security_group_id]
+  depends_on = [
+    module.base
+  ]
 }
 
-resource "outscale_public_ip" "public_ip_bastion" {
-  count = var.maxcount
-  tags {
-    key   = "Name"
-    value = format("%s-%s", "public_ip_bastion", count.index)
-  }
+locals {
+  bastion_private_ip = flatten(module.bastion[*].private_ip)
 }
 
-resource "outscale_public_ip_link" "public_ip_link" {
-  count = var.maxcount
-  vm_id     = outscale_vm.bastion[count.index].vm_id
-  public_ip = outscale_public_ip.public_ip_bastion[count.index].public_ip
+output "bastion_private_ip" {
+  value = local.bastion_private_ip
 }

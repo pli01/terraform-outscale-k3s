@@ -3,11 +3,11 @@ variable "image_name" {
   default = "ami-ff13275d"
 }
 
-variable "vm_type" {
+variable "bastion_type" {
   type    = string
   default = "t2.nano"
 }
 
 variable "keypair_name" {
-  type    = string
+  type = string
 }
