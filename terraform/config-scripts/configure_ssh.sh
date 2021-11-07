@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "# RUNNING: $(dirname $0)/$(basename $0)"
+set -x
 set -e -o pipefail
 cloud_user=outscale
 libdir=/home/$cloud_user

@@ -135,12 +135,13 @@ sudo -E kubectl create -f https://raw.githubusercontent.com/portainer/k8s/master
    jq '.|(if .kind == "ServiceAccount" then . + {"imagePullSecrets": [{"name": "regcred"}]} else . end)'  | \
    jq '.|(if .kind == "Deployment" then .spec.template.spec.containers[0].imagePullPolicy = "IfNotPresent"  else . end)' | \
    jq '.|(if .kind == "Deployment" then .spec.template.spec.tolerations = [{"key":"CriticalAddonsOnly","operator":"Exists"},{"key":"node-role.kubernetes.io/master","operator":"Exists","effect":"NoSchedule"},{"key":"node-role.kubernetes.io/control-plane","operator":"Exists","effect":"NoSchedule"}] else . end)' | \
-   jq \
-    --arg http_proxy "$http_proxy" \
-    --arg https_proxy "$https_proxy" \
-    --arg no_proxy "$no_proxy,kubernetes.default.svc,$MASTER_IP" \
-   '.|(if .kind == "Deployment" then .spec.template.spec.containers[0].env = [{"name":"HTTP_PROXY","value":$http_proxy},{"name":"HTTPS_PROXY","value":$http_proxy},{"name":"NO_PROXY","value":$no_proxy}] else . end)' | \
    sudo -E kubectl apply -f -
+
+#   jq \
+#    --arg http_proxy "$http_proxy" \
+#    --arg https_proxy "$https_proxy" \
+#    --arg no_proxy "$no_proxy,kubernetes.default.svc,$MASTER_IP" \
+#   '.|(if .kind == "Deployment" then .spec.template.spec.containers[0].env = [{"name":"HTTP_PROXY","value":$http_proxy},{"name":"HTTPS_PROXY","value":$http_proxy},{"name":"NO_PROXY","value":$no_proxy}] else . end)' | \
 
 test_result=1
 timeout=$DEFAULT_TIMEOUT

@@ -21,3 +21,8 @@ variable "ssh_authorized_keys" {
   default = []
 }
 
+variable "k3s_master_variables" {
+  type    = map(any)
+  default = {}
+}
+

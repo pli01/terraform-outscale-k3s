@@ -102,3 +102,8 @@ resource "outscale_route" "route02" {
   nat_service_id       = outscale_nat_service.nat_service01.nat_service_id
   route_table_id       = outscale_route_table.route_table02.route_table_id
 }
+
+resource "outscale_route_table_link" "route_table_link02" {
+  subnet_id      = outscale_subnet.private_subnet02.subnet_id
+  route_table_id = outscale_route_table.route_table02.id
+}
