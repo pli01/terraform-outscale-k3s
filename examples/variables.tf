@@ -11,3 +11,13 @@ variable "bastion_type" {
 variable "keypair_name" {
   type = string
 }
+
+variable "bastion_count" {
+  type    = number
+  default = 1
+}
+variable "ssh_authorized_keys" {
+  type    = list(string)
+  default = []
+}
+

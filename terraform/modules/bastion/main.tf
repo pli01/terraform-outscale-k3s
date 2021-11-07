@@ -1,3 +1,14 @@
+variable "ssh_authorized_keys" {
+  type    = list(string)
+  default = []
+}
+variable "docker_version" {
+  default = ""
+}
+variable "docker_compose_version" {
+  default = ""
+}
+
 variable "image_id" {
   type    = string
   default = "ami-ff13275d"
@@ -40,6 +51,14 @@ data "cloudinit_config" "bastion_config" {
     filename     = "cloud-init.cfg"
     content_type = "text/cloud-config"
     content      = file("${path.module}/../../config-scripts/cloud-init.tpl")
+  }
+  part {
+    content_type = "text/x-shellscript"
+    content = templatefile("${path.module}/../../config-scripts/configure_common.sh", {
+      ssh_authorized_keys           = jsonencode(var.ssh_authorized_keys)
+      docker_version                = var.docker_version
+      docker_compose_version        = var.docker_compose_version
+    })
   }
   part {
     content_type = "text/x-shellscript"

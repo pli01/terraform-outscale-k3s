@@ -143,10 +143,14 @@ make build
 ```
 * Test, plan, deploy
 ```
+# format tf file
 make tf-format PROJECT="terraform"
+#
 make tf-validate PROJECT="terraform"
 make tf-plan PROJECT="terraform" TF_VAR_FILE="-var-file=/data/terraform/env/dev/config.auto.vars"
 make tf-apply PROJECT="terraform" TF_VAR_FILE="-var-file=/data/terraform/env/dev/config.auto.vars"
-# or
+# taint and redeploy
+make tf-taint tf-apply PROJECT="terraform" TF_VAR_FILE="-var-file=/data/terraform/env/dev/config.auto.vars" TAINT_ADDRESS="module.k3s-cluster.module.bastion.outscale_vm.bastion[0]"
+# destroy
 make tf-deploy PROJECT="terraform" TF_VAR_FILE="-var-file=/data/terraform/env/dev/config.auto.vars"
 ```
