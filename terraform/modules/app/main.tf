@@ -113,8 +113,12 @@ resource "outscale_vm" "app" {
 
 locals {
   private_ip = outscale_vm.app[*].private_ip
+  vm_id = outscale_vm.app[*].vm_id
 }
 
 output "private_ip" {
   value = local.private_ip
+}
+output "vm_id" {
+  value = local.vm_id
 }

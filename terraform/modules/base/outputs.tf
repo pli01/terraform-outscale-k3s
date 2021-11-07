@@ -10,7 +10,9 @@ output "bastion_public_ip" {
 output "bastion_security_group_id" {
   value = outscale_security_group.bastion_security_group01.security_group_id
 }
-
 output "k3s_master_security_group_id" {
   value = outscale_security_group.k3s_master_security_group01.security_group_id
+}
+output "lb_security_group_id" {
+  value = outscale_security_group.lb_security_group01.security_group_id
 }

@@ -53,6 +53,15 @@ resource "outscale_security_group_rule" "k3s_master_security_group_rule06" {
   flow              = "Inbound"
   security_group_id = outscale_security_group.k3s_master_security_group01.security_group_id
   ip_protocol       = "tcp"
+  from_port_range   = "80"
+  to_port_range     = "80"
+  ip_range          = "0.0.0.0/0"
+}
+
+resource "outscale_security_group_rule" "k3s_master_security_group_rule07" {
+  flow              = "Inbound"
+  security_group_id = outscale_security_group.k3s_master_security_group01.security_group_id
+  ip_protocol       = "tcp"
   from_port_range   = "443"
   to_port_range     = "443"
   ip_range          = var.network.private_subnet_cidr
