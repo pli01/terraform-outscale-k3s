@@ -1,5 +1,5 @@
-resource "outscale_load_balancer" "load_balancer01" {
-    load_balancer_name = format("%s-%s", var.prefix_name,"load-balancer01")
+resource "outscale_load_balancer" "admin_load_balancer01" {
+    load_balancer_name = format("%s-%s", var.prefix_name,"portainer-load-balancer01")
     listeners {
      backend_port            = 80
      backend_protocol        = "HTTP"
@@ -11,7 +11,7 @@ resource "outscale_load_balancer" "load_balancer01" {
     load_balancer_type = "internet-facing"
     tags {
         key   = "name"
-        value = format("%s-%s", var.prefix_name,"load-balancer01")
+        value = format("%s-%s", var.prefix_name,"portainer-load-balancer01")
     }
     tags {
       key   = "Env"
@@ -23,16 +23,16 @@ resource "outscale_load_balancer" "load_balancer01" {
     ]
 }
 
-resource "outscale_load_balancer_vms" "outscale_load_balancer_vms01" {
-    load_balancer_name = outscale_load_balancer.load_balancer01.load_balancer_name
+resource "outscale_load_balancer_vms" "outscale_load_balancer_vms02" {
+    load_balancer_name = outscale_load_balancer.admin_load_balancer01.load_balancer_name
     backend_vm_ids     = flatten(module.k3s-master[*].vm_id)
 }
 
 locals {
-  lb_dns_name = outscale_load_balancer.load_balancer01.dns_name
+  lb_admin_dns_name = outscale_load_balancer.admin_load_balancer01.dns_name
 }
 
 
-output "lb_dns_name" {
-  value = local.lb_dns_name
+output "lb_admin_dns_name" {
+  value = local.lb_admin_dns_name
 }

@@ -10,6 +10,7 @@ variable "network" {
 
 module "base" {
   source  = "./modules/base"
+  prefix_name = var.prefix_name
   network = var.network
 }
 

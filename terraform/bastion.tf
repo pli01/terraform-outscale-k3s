@@ -10,6 +10,7 @@ variable "bastion_count" {
 
 module "bastion" {
   source                 = "./modules/bastion"
+  prefix_name            = var.prefix_name
   maxcount               = var.bastion_count
   image_id               = var.image_name
   vm_type                = var.bastion_type

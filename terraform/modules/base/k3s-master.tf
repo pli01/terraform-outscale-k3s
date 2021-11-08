@@ -2,6 +2,14 @@ resource "outscale_security_group" "k3s_master_security_group01" {
   description         = "Terraform security group for sg rule"
   security_group_name = "k3s_master-security-group-01"
   net_id              = outscale_net.net01.net_id
+  tags {
+    key   = "Name"
+    value = format("%s-%s", var.prefix_name, "k3s_master-security-group-01")
+  }
+  tags {
+    key   = "Env"
+    value = var.prefix_name
+  }
 }
 
 resource "outscale_security_group_rule" "k3s_master_security_group_rule01" {

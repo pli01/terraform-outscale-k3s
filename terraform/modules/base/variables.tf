@@ -1,0 +1,1 @@
+variable "prefix_name" {}

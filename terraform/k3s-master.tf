@@ -11,7 +11,7 @@ variable "k3s_master_type" {
   default = "t2.nano"
 }
 variable "k3s_master_install_script" {
-  default = "https://raw.githubusercontent.com/pli01/terraform-outscale-k3s/main/samples/app/k3s/k3-master-install.sh"
+  default = "https://raw.githubusercontent.com/pli01/terraform-outscale-k3s/main/samples/app/k3s/k3s-master-install.sh"
 }
 variable "k3s_master_variables" {
   type    = map(any)
@@ -20,6 +20,7 @@ variable "k3s_master_variables" {
 
 module "k3s-master" {
   source                   = "./modules/app"
+  prefix_name              = var.prefix_name
   maxcount                 = var.k3s_master_count
   app_name                 = var.k3s_master_name
   vm_type                  = var.k3s_master_type

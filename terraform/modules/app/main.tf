@@ -1,3 +1,5 @@
+variable "prefix_name" {}
+
 variable "app_name" {
   default = "app"
 }
@@ -107,8 +109,13 @@ resource "outscale_vm" "app" {
   user_data          = data.cloudinit_config.app_config.rendered
   tags {
     key   = "Name"
-    value = format("%s-%s", var.app_name, count.index)
+    value = format("%s-%s-%s", var.prefix_name,var.app_name, count.index)
   }
+  tags {
+    key   = "Env"
+    value = var.prefix_name
+  }
+
 }
 
 locals {

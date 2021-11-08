@@ -1,3 +1,8 @@
+variable "prefix_name" {
+  type = string
+  default = "test"
+}
+
 variable "image_name" {
   type    = string
   default = "ami-ff13275d"

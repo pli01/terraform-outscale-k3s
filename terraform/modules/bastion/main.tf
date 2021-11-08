@@ -1,3 +1,5 @@
+variable "prefix_name" {}
+
 variable "ssh_authorized_keys" {
   type    = list(string)
   default = []
@@ -80,7 +82,11 @@ resource "outscale_vm" "bastion" {
   user_data          = data.cloudinit_config.bastion_config.rendered
   tags {
     key   = "Name"
-    value = format("%s-%s", "bastion", count.index)
+    value = format("%s-%s-%s", var.prefix_name,"bastion", count.index)
+  }
+  tags {
+    key   = "Env"
+    value = var.prefix_name
   }
 }
 

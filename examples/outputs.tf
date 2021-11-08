@@ -10,3 +10,6 @@ output "k3s_master_private_ip" {
 output "lb_dns_name" {
   value = module.k3s-cluster.lb_dns_name
 }
+output "lb_admin_dns_name" {
+  value = module.k3s-cluster.lb_admin_dns_name
+}

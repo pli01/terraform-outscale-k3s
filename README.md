@@ -109,7 +109,7 @@ Common variables
 | `k3s_master_data_enable` | data added disk (true or false)| `false` |
 | `k3s_master_data_size` | data disk size (Go)| `0` |
 | `k3s_master_metric_variables` | metric_enable on k3 master instances ({ VAR=value, VAR2=value2}) | `{}` |
-| `k3s_master_install_script` | k3s master install script url to deploy | `https://raw.githubusercontent.com/pli01/terraform-outscale-k3s/main/samples/app/k3s/k3-master-install.sh` |
+| `k3s_master_install_script` | k3s master install script url to deploy | `https://raw.githubusercontent.com/pli01/terraform-outscale-k3s/main/samples/app/k3s/k3s-master-install.sh` |
 | `k3s_master_variables` | k3s_master_variables map ({ VAR=value, VAR2=value2}) | `{K3S_TOKEN = "_MY_SUPER_K3S_TOKEN_"}` |
 ||||
 | `k3s_agent_count` | k3s agent instance count (0 = disable, 1,2,3...N) | `1` |
@@ -117,7 +117,7 @@ Common variables
 | `k3s_agent_data_enable` | data added disk (true or false)| `false` |
 | `k3s_agent_data_size` | data disk size (Go)| `0` |
 | `k3s_agent_metric_variables` | metric_enable on k3 agent instances ({ VAR=value, VAR2=value2}) | `{}` |
-| `k3s_agent_install_script` | k3s agent install script url to deploy | `https://raw.githubusercontent.com/pli01/terraform-outscale-k3s/main/samples/app/k3s/k3-agent-install.sh` |
+| `k3s_agent_install_script` | k3s agent install script url to deploy | `https://raw.githubusercontent.com/pli01/terraform-outscale-k3s/main/samples/app/k3s/k3s-agent-install.sh` |
 | `k3s_agent_variables` | k3s_agent_variables map ({ VAR=value, VAR2=value2}) | `{K3S_TOKEN = "_MY_SUPER_K3S_TOKEN_"}` |
 
 ### Variables
