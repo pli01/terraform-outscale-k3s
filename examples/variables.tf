@@ -1,6 +1,11 @@
 variable "image_name" {
   type    = string
-  default = "ami-ff13275d"
+  # debian 9
+  default = "ami-47899c77"
+  # debian 10
+  # default = "ami-ff13275d"
+  # debian 11
+  # default = "ami-19f1ba1c"
 }
 
 variable "bastion_type" {

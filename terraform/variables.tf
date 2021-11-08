@@ -5,7 +5,8 @@ variable "prefix_name" {
 
 variable "image_name" {
   type    = string
-  default = "ami-ff13275d"
+  #default = "ami-ff13275d"
+  default = "ami-47899c77"
 }
 
 variable "keypair_name" {
@@ -17,7 +18,7 @@ variable "ssh_authorized_keys" {
   default = []
 }
 variable "docker_version" {
-  default = ""
+  default = "docker-ce=5:19.03.11~3-0~debian-stretch"
 }
 variable "docker_compose_version" {
   default = ""
