@@ -30,3 +30,11 @@ variable "k3s_master_variables" {
   default = {}
 }
 
+variable "k3s_agent_type" {}
+
+#variable "k3s_agent_install_script" {}
+
+variable "k3s_agent_variables" {
+  type    = map(any)
+  default = {}
+}

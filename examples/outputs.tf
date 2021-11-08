@@ -7,6 +7,9 @@ output "bastion_public_ip" {
 output "k3s_master_private_ip" {
   value = module.k3s-cluster.k3s_master_private_ip
 }
+output "k3s_agent_private_ip" {
+  value = module.k3s-cluster.k3s_agent_private_ip
+}
 output "lb_dns_name" {
   value = module.k3s-cluster.lb_dns_name
 }

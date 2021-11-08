@@ -1,5 +1,5 @@
 variable "prefix_name" {
-  type = string
+  type    = string
   default = "test"
 }
 

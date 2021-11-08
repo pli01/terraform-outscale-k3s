@@ -9,9 +9,9 @@ variable "network" {
 }
 
 module "base" {
-  source  = "./modules/base"
+  source      = "./modules/base"
   prefix_name = var.prefix_name
-  network = var.network
+  network     = var.network
 }
 
 output "bastion_security_group_id" {
