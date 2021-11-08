@@ -163,5 +163,12 @@ fi
 #
 # install ingressroute for portainer
 #
-sudo -E kubectl create -f https://raw.githubusercontent.com/pli01/terraform-outscale-k3s/main/samples/app/k3s/kubernetes-portainer-ingressroute.yml
+export PORTAINER_HOST_REGEXP="${PORTAINER_HOST_REGEXP:-portainer}"
+
+sudo -E kubectl create -f https://raw.githubusercontent.com/pli01/terraform-openstack-k3s/main/samples/app/k3s/kubernetes-portainer-ingressroute.yml --dry-run="client" -o json  | \
+   jq \
+    --arg PORTAINER_HOST_REGEXP "$PORTAINER_HOST_REGEXP" \
+    '.|(if .kind == "IngressRoute" then .spec.routes[0].match = "HostRegexp(`"+$PORTAINER_HOST_REGEXP+"`)" else . end)'  | \
+   sudo -E kubectl apply -f -
+
 exit
