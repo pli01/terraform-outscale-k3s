@@ -154,3 +154,8 @@ make tf-taint tf-apply PROJECT="terraform" TF_VAR_FILE="-var-file=/data/terrafor
 # destroy
 make tf-deploy PROJECT="terraform" TF_VAR_FILE="-var-file=/data/terraform/env/dev/config.auto.vars"
 ```
+
+* You can use an dedicated directory for your deployement (see examples)
+```
+make tf-apply PROJECT="examples" TF_VAR_FILE='-var-file=/data/${PROJECT}/env/test/config.auto.vars'
+```

@@ -25,6 +25,10 @@ variable "ssh_authorized_keys" {
   type    = list(string)
   default = []
 }
+variable "k3s_master_count" {
+  type    = number
+  default = 1
+}
 
 variable "k3s_master_type" {}
 
@@ -35,6 +39,10 @@ variable "k3s_master_variables" {
   default = {}
 }
 
+variable "k3s_agent_count" {
+  type    = number
+  default = 1
+}
 variable "k3s_agent_type" {}
 
 #variable "k3s_agent_install_script" {}
