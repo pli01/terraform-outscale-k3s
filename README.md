@@ -31,7 +31,7 @@ This module create the following resources
   * N admin load-balancer
   * 1 k3s master instance (override with your own url k3_master_install_script)
   * N k3s agent instances (override with your own url k3s_agent_install_script)
-  * Terraform backend state stored in s3 (todo)
+  * Terraform backend state stored in s3
 
 K3 cluster will contain the portainer dashboard for easy admin
 
@@ -42,18 +42,19 @@ K3 cluster will contain the portainer dashboard for easy admin
 
 Prereq:
   * outscale credentials / tenant
+  * aws credentials / tenant
   * (optional) dockerhub credentials
   * (optional) corporate http proxy credentials
 
 this terraform module
-  * provision outscale resources (network,volume,floating-ip security group,swift object)
-  * provision instances with heat stack template (use wait_condition) and cloud_config template
+  * provision outscale resources (network,volume,floating-ip security group)
+  * provision instances and cloud_config template
   * customize cloud-init install script with install_script variables
 
 Custom install script used:
   * [k3s cluster install](./samples/app/k3s/)
-  * [EFK log docker stack (Elastic,Kibana,Fluentd,Curator)](https://github.com/pli01/log-stack/)
-  * [beat docker stack (metricbeat,heartbeat)](https://github.com/pli01/beat-stack/)
+  * TODO: [EFK log docker stack (Elastic,Kibana,Fluentd,Curator)](https://github.com/pli01/log-stack/)
+  * TODO: [beat docker stack (metricbeat,heartbeat)](https://github.com/pli01/beat-stack/)
 
 ### Terraform variables
 See details in `terraform/variables.tf` file and `examples` dir
@@ -70,53 +71,20 @@ Common variables
 | `bastion_flavor` | bastion flavor | `standard-2.2` |
 | `bastion_data_enable` | data added disk (true or false)| `false` |
 | `bastion_data_size` | data disk size (Go)| `0` |
-| `http_proxy_count` | http_proxy count (0 = disable, 1=enable) | `1` |
-| `http_proxy_flavor` | http_proxy flavor | `standard-2.2` |
-| `tinyproxy_upstream` | default tinyproxy_upstream | `["upstream proxy1:3128"]` |
-| `tinyproxy_proxy_authorization` | tinyproxy_proxy_authorization | `base64(login:password)` |
 | `dockerhub_login` | dockerhub_login | `login` |
 | `dockerhub_token` | dockerhub_token | `token` |
 | `github_token` | github_token | `github_token` |
 | `docker_registry_username` | docker_registry_username | `docker_registry_username` |
 | `docker_registry_token` | docker_registry_token | `docker_registry_token` |
 | `syslog_relay` | syslog_relay  | `floating ip log stack` |
-| `log_count` | log instance count (0 = disable, 1=enable) | `1` |
-| `log_flavor` | log flavor | `standard-2.2` |
-| `log_data_enable` | data added disk (true or false)| `false` |
-| `log_data_size` | data disk size (Go)| `0` |
-| `log_install_script` | log install script url to deploy | `https://raw.githubusercontent.com/pli01/log-stack/master/ci/docker-deploy.sh` |
-| `log_variables` | log_variables map ({ VAR=value, VAR2=value2}) | `{}` |
-| `metric_enable` | metric_enable on app instances (false, true) | `false` |
-| `metric_install_script` | metric_install_script url to deploy | `https://raw.githubusercontent.com/pli01/beat-stack/master/ci/docker-deploy.sh` |
-||||
-| `traefik_user_hostname` | user URL | `["www.k3s.dev.my-domain.org","mysite.org"]` |
-||||
-| `lb_count` | lb instance count (0 = disable, 1=enable) | `1` |
-| `lb_flavor` | lb flavor | `standard-2.2` |
-| `lb_metric_variables` | metric_enable on app instances | `{}` |
-| `lb_install_script` | lb install script url to deploy | `https://raw.githubusercontent.com/pli01/simple-traefik-http-provider/main/ci/docker-deploy.sh` |
-| `lb_variables` | lb_variables map ({ VAR=value, VAR2=value2}) | `{}` |
-||||
-| `traefik_admin_hostname` | kubernetes Admin URL | `["k3s-admin.dev.my-domain.org"]` |
-| `lb_admin_count` | lb instance count (0 = disable, 1=enable) | `1` |
-| `lb_admin_flavor` | lb flavor | `standard-2.2` |
-| `lb_admin_metric_variables` | metric_enable on app instances | `{}` |
-| `lb_admin_install_script` | lb install script url to deploy | `https://raw.githubusercontent.com/pli01/simple-traefik-http-provider/main/ci/docker-deploy.sh` |
-| `lb_admin_variables` | lb_admin_variables map ({ VAR=value, VAR2=value2}) | `{}` |
 ||||
 | `k3s_master_count` | k3s master instance count (0 = disable, 1,2,3...N) | `1` |
 | `k3s_master_flavor` | app flavor | `standard-2.2` |
-| `k3s_master_data_enable` | data added disk (true or false)| `false` |
-| `k3s_master_data_size` | data disk size (Go)| `0` |
-| `k3s_master_metric_variables` | metric_enable on k3 master instances ({ VAR=value, VAR2=value2}) | `{}` |
 | `k3s_master_install_script` | k3s master install script url to deploy | `https://raw.githubusercontent.com/pli01/terraform-outscale-k3s/main/samples/app/k3s/k3s-master-install.sh` |
 | `k3s_master_variables` | k3s_master_variables map ({ VAR=value, VAR2=value2}) | `{K3S_TOKEN = "_MY_SUPER_K3S_TOKEN_"}` |
 ||||
 | `k3s_agent_count` | k3s agent instance count (0 = disable, 1,2,3...N) | `1` |
 | `k3s_agent_flavor` | k3s agent flavor | `standard-2.2` |
-| `k3s_agent_data_enable` | data added disk (true or false)| `false` |
-| `k3s_agent_data_size` | data disk size (Go)| `0` |
-| `k3s_agent_metric_variables` | metric_enable on k3 agent instances ({ VAR=value, VAR2=value2}) | `{}` |
 | `k3s_agent_install_script` | k3s agent install script url to deploy | `https://raw.githubusercontent.com/pli01/terraform-outscale-k3s/main/samples/app/k3s/k3s-agent-install.sh` |
 | `k3s_agent_variables` | k3s_agent_variables map ({ VAR=value, VAR2=value2}) | `{K3S_TOKEN = "_MY_SUPER_K3S_TOKEN_"}` |
 
@@ -164,7 +132,7 @@ make tf-deploy PROJECT="terraform" TF_VAR_FILE="-var-file=/data/terraform/env/de
 ```
 
 ## deploy your own ressources
-* You can use an dedicated directory for your deployment (see examples directory)
+* You can define your deployment in an dedicated directory (see examples directory)
 * choose your backend (file or s3)
 ```
 * If S3 backend is used
@@ -177,7 +145,7 @@ export AWS_IAM_ENDPOINT=eim.cloudgouv-eu-west-1.outscale.com
 export AWS_S3_ENDPOINT=oos.cloudgouv-eu-west-1.outscale.com
 export AWS_DEFAULT_OUTPUT=table
 
-# create bucket
+# create S3 bucket
 aws s3api create-bucket --bucket test-k3s-terraform-state --acl private
 aws s3api put-bucket-versioning --bucket test-k3s-terraform-state --versioning-configuration "Status=Enabled"
 ```
@@ -188,7 +156,26 @@ export OUTSCALE_REGION="cloudgouv-eu-west-1"
 export OUTSCALE_ACCESSKEYID="XXX"
 export OUTSCALE_SECRETKEYID="YYY"
 
-# deploy k3s cluster
+# deploy k3s cluster step by step
+# bastion_count=1
+# k3s_master_count=0
+# k3s_agent_count=0
 make tf-apply PROJECT="examples" TF_VAR_FILE='-var-file=/data/${PROJECT}/env/test/config.auto.vars'
+# deploy k3s  master
+# k3s_master_count=1
+# k3s_agent_count=0
+make tf-apply PROJECT="examples" TF_VAR_FILE='-var-file=/data/${PROJECT}/env/test/config.auto.vars'
+# deploy k3s  agent
+# k3s_agent_count=1
+make tf-apply PROJECT="examples" TF_VAR_FILE='-var-file=/data/${PROJECT}/env/test/config.auto.vars'
+```
 
+* To remove agent node
+
+```
+# in kubectl console
+kubectl drain node XXX
+kubectl delete node XXX
+
+# remove k3_agent or redeploy
 ```
