@@ -90,7 +90,7 @@ output:| check-var-PROJECT init
 	${TF_BIN} -chdir=${PROJECT} output
 show:| check-var-PROJECT init
 	${TF_BIN} -chdir=${PROJECT} show
-state:| check-var-PROJECT init
+state-list:| check-var-PROJECT init
 	${TF_BIN} -chdir=${PROJECT} state list
 show-json:| check-var-PROJECT init
 	${TF_BIN} -chdir=${PROJECT} show  -json | \
