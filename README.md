@@ -179,6 +179,7 @@ export AWS_DEFAULT_OUTPUT=table
 
 # create bucket
 aws s3api create-bucket --bucket test-k3s-terraform-state --acl private
+aws s3api put-bucket-versioning --bucket test-k3s-terraform-state --versioning-configuration "Status=Enabled"
 ```
 * deploy your k3s cluster
 ```
