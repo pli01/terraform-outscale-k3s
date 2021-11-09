@@ -124,9 +124,17 @@ Common variables
 You can override terraform variables
 ```
 Variable Outscale API credentials
-OUTSCALE_REGION=eu-west-1
-OUTSCALE_ACCESSKEYID=XXXXX
-OUTSCALE_SECRETKEYID=YYYYYY
+  OUTSCALE_REGION=eu-west-1
+  OUTSCALE_ACCESSKEYID=XXXXX
+  OUTSCALE_SECRETKEYID=YYYYYY
+
+Variable AWS API credentials (for S3 backend)
+  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+  AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+  AWS_ROLE_ARN: $AWS_ROLE_ARN
+  AWS_S3_ENDPOINT: $AWS_S3_ENDPOINT
+  AWS_IAM_ENDPOINT: $AWS_IAM_ENDPOINT
 
 Variable TF_VAR_xxxx
 TF_VAR_tinyproxy_proxy_authorization = base64(login:password)
@@ -155,7 +163,31 @@ make tf-taint tf-apply PROJECT="terraform" TF_VAR_FILE="-var-file=/data/terrafor
 make tf-deploy PROJECT="terraform" TF_VAR_FILE="-var-file=/data/terraform/env/dev/config.auto.vars"
 ```
 
-* You can use an dedicated directory for your deployement (see examples)
+## deploy your own ressources
+* You can use an dedicated directory for your deployment (see examples directory)
+* choose your backend (file or s3)
 ```
+* If S3 backend is used
+# configure s3 api outscale credentials
+export AWS_ACCESS_KEY_ID=XX
+export AWS_SECRET_ACCESS_KEY=YY
+export AWS_DEFAULT_REGION=cloudgouv-eu-west-1
+export AWS_ROLE_ARN=arn:aws:iam::ZZZ
+export AWS_IAM_ENDPOINT=eim.cloudgouv-eu-west-1.outscale.com
+export AWS_S3_ENDPOINT=oos.cloudgouv-eu-west-1.outscale.com
+export AWS_DEFAULT_OUTPUT=table
+
+# create bucket
+aws s3api create-bucket --bucket test-k3s-terraform-state --acl private
+```
+* deploy your k3s cluster
+```
+# configure outscale api credentials
+export OUTSCALE_REGION="cloudgouv-eu-west-1"
+export OUTSCALE_ACCESSKEYID="XXX"
+export OUTSCALE_SECRETKEYID="YYY"
+
+# deploy k3s cluster
 make tf-apply PROJECT="examples" TF_VAR_FILE='-var-file=/data/${PROJECT}/env/test/config.auto.vars'
+
 ```

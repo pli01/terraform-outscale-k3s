@@ -24,6 +24,7 @@ resource "outscale_load_balancer" "admin_load_balancer01" {
 }
 
 resource "outscale_load_balancer_vms" "outscale_load_balancer_vms02" {
+  count              = var.k3s_master_count > 0 ? 1 : 0
   load_balancer_name = outscale_load_balancer.admin_load_balancer01.load_balancer_name
   backend_vm_ids     = flatten(module.k3s-master[*].vm_id)
 }

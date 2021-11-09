@@ -13,7 +13,7 @@ echo "# build docker cli/terraform $TERRAFORM_VERSION"
 make build
 make tf-version
 
+
+cp examples/backend.tf.file.disable examples/backend.tf
 echo "# validate terraform module"
 make tf-validate PROJECT="examples"
-
-
