@@ -98,8 +98,12 @@ resource "outscale_public_ip_link" "public_ip_bastion_link" {
 
 locals {
   private_ip = outscale_vm.bastion[*].private_ip
+  vm_id = outscale_vm.bastion[*].vm_id
 }
 
 output "private_ip" {
   value = local.private_ip
+}
+output "vm_id" {
+  value = local.vm_id
 }

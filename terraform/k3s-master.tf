@@ -47,8 +47,12 @@ module "k3s-master" {
 # output
 locals {
   k3s_master_private_ip = flatten(module.k3s-master[*].private_ip)
+  k3s_master_vm_id = flatten(module.k3s-master[*].vm_id)
 }
 
 output "k3s_master_private_ip" {
   value = local.k3s_master_private_ip
+}
+output "k3s_master_vm_id" {
+  value = local.k3s_master_vm_id
 }

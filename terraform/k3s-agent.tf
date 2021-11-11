@@ -48,8 +48,12 @@ module "k3s-agent" {
 # output
 locals {
   k3s_agent_private_ip = flatten(module.k3s-agent[*].private_ip)
+  k3s_agent_vm_id = flatten(module.k3s-agent[*].vm_id)
 }
 
 output "k3s_agent_private_ip" {
   value = local.k3s_agent_private_ip
+}
+output "k3s_agent_vm_id" {
+  value = local.k3s_agent_vm_id
 }

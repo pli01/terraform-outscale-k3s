@@ -28,8 +28,12 @@ module "bastion" {
 
 locals {
   bastion_private_ip = flatten(module.bastion[*].private_ip)
+  bastion_vm_id = flatten(module.bastion[*].vm_id)
 }
 
 output "bastion_private_ip" {
   value = local.bastion_private_ip
+}
+output "bastion_vm_id" {
+  value = local.bastion_vm_id
 }
